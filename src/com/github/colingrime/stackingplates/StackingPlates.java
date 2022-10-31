@@ -64,7 +64,7 @@ public class StackingPlates {
 
 			int size = stacks.size();
 			for (int i=0; i<size; i++) {
-				// If the stack contains the last diameter, they don't need to split.
+				// If the stack contains the last diameter, they don't need to split (they would be joined later anyways).
 				if (stacks.get(i).contains(lastDiamater)) {
 					continue;
 				}
@@ -113,23 +113,23 @@ public class StackingPlates {
 		}
 
 		/**
-		 * Splits a stack at a certain height.
+		 * Splits a stack at a certain diameter.
 		 * @param stack stack to split
-		 * @param heightToStop height to split at (makes a new stack with all elements before and at this height)
+		 * @param splitDiameter diameter to split at (makes a new stack with all elements before and at this diameter)
 		 * @return true if the stack was split, false if there was nothing to split
 		 */
-		public boolean split(Stack<Integer> stack, int heightToStop) {
-			// If the top element isn't greater than the height to stop at, no element is (nothing to split).
-			// If the first element isn't less than or equal to the height to stop at, the whole stack is included, so nothing splits.
-			if (stack.peek() > heightToStop || stack.firstElement() <= heightToStop) {
+		public boolean split(Stack<Integer> stack, int splitDiameter) {
+			// If the top element is greater than the split diameter, all elements are greater (nothing to split).
+			// If the first element is less than or equal to the split diameter, the whole stack is included, so nothing splits.
+			if (stack.peek() > splitDiameter || stack.firstElement() <= splitDiameter) {
 				return false;
 			}
 
 			Stack<Integer> newStack = new Stack<>();
 
-			// Creates a new stack with all elements before and at the height.
+			// Creates a new stack with all elements before and at the split diameter.
 			while (!stack.isEmpty()) {
-				if (stack.peek() <= heightToStop) {
+				if (stack.peek() <= splitDiameter) {
 					newStack.push(stack.pop());
 				} else {
 					break;
